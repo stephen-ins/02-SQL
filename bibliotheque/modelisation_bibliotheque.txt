@@ -1,0 +1,73 @@
+cd C:\xampp\mysql\bin
+
+mysql.exe –h localhost –u root -p
+
+
+mysql -h localhost -u root
+
+/Applications/xampp/xamppfiles/bin/mysql -u root -p
+
+BDD bibliothèque
+
+table: abonne
+
+INT(11) : type interger : entier - 11 : longueur max
+VARCHAR(255) : type chaine de caractères - 255 : longueur maximum de caractères
+
+id_abonne : Clé primaire auto-incrémenté (PK AI INT(11))
+prenom : VARCHAR(255)
++-----------+-----------+
+| id_abonne | prenom    |
++-----------+-----------+
+|         1 | Guillaume |
+|         2 | Benoit    |
+|         3 | Chloe     |
+|         4 | Laura     |
++-----------+-----------+
+
+table: emprunt
+
+id_emprunt : Clé primaire auto-incrémenté (PK AI INT(11))
+livre_id : clé étrangère (FOREIGN KEY INT(11))
+abonne_id : clé étrangère (FOREIGN KEY INT(11))
+Le noms des clés étrangère est toujours inversé, pour bien indiquer que c'est une champ qui provient d'une autre table
+date_sortie : type date
+date_rendu : type date
+
++------------+----------+-----------+-------------+------------+
+| id_emprunt | livre_id | abonne_id | date_sortie | date_rendu |
++------------+----------+-----------+-------------+------------+
+|          1 |      100 |         1 | 2014-12-17  | 2014-12-18 |
+|          2 |      101 |         2 | 2014-12-18  | 2014-12-20 |
+|          3 |      100 |         3 | 2014-12-19  | 2014-12-22 |
+|          4 |      103 |         4 | 2014-12-19  | 2014-12-22 |
+|          5 |      104 |         1 | 2014-12-19  | 2014-12-28 |
+|          6 |      105 |         2 | 2015-03-20  | 2015-03-26 |
+|          7 |      105 |         3 | 2015-06-13  | NULL       |
+|          8 |      100 |         2 | 2015-06-15  | NULL       |
++------------+----------+-----------+-------------+------------+
+
+table: livre
+
+INT(11) : type interger : entier - 11 : longueur max
+VARCHAR(255) : type chaine de caractères - 255 : longueur maximum de caractères
+
+id_livre : Clé primaire auto-incrémenté (PK AI INT(11))
+auteur : VARCHAR(255)
+titre : VARCHAR(255)
+
++----------+-------------------+-------------------------+
+| id_livre | auteur            | titre                   |
++----------+-------------------+-------------------------+
+|      100 | GUY DE MAUPASSANT | Une vie                 |
+|      101 | GUY DE MAUPASSANT | Bel-Ami                 |
+|      102 | HONORE DE BALZAC  | Le pere Goriot          |
+|      103 | ALPHONSE DAUDET   | Le Petit chose          |
+|      104 | ALEXANDRE DUMAS   | La Reine Margot         |
+|      105 | ALEXANDRE DUMAS   | Les Trois Mousquetaires |
++----------+-------------------+-------------------------+
+
+
+
+
+
