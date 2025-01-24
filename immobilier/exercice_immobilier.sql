@@ -1,120 +1,271 @@
 -- 1/ Affichez le nom des agences :
+SELECT
+  nom
+FROM
+  agence;
+
 -- +---------------------+
--- | nom
--- |
+-- | nom                 |
 -- +---------------------+
--- | logic-immo
--- | century21
--- | laforet
--- | fnaim
--- | orpi
--- | foncia
--- | guy-hoquet
--- | seloger
+-- | logic-immo          |
+-- | century21           |
+-- | laforet             |
+-- | fnaim               |
+-- | orpi                |
+-- | foncia              |
+-- | guy-hoquet          |
+-- | seloger             |
 -- | bouygues immobilier |
 -- +---------------------+
 -- 2/ Affichez le numéro de l’agence « Orpi » :
--- +------------+
--- | id_agence  | 
--- +------------+
--- |     608870 |
--- +------------+
+SELECT
+  agence.id_agence
+FROM
+  agence
+WHERE
+  agence.nom = 'orpi';
+
+-- +-----------+
+-- | id_agence |
+-- +-----------+
+-- |    608870 |
+-- +-----------+
 -- 3/ Affichez le premier enregistrement de la table logement
--- +----------+-------------+-------+--------+------------+-----------+
--- | id_logement| type       | ville | prix | superficie | categorie |
--- +----------+-------------+-------+--------+------------+-----------+
--- |5067        | appartement | paris | 185000 | 61      | vente
--- +----------+-------------+-------+--------+------------+-----------+
+SELECT
+  *
+FROM
+  logement
+LIMIT
+  1;
+
+-- +-------------+-------------+-------+--------+------------+-----------+
+-- | id_logement | genre       | ville | prix   | superficie | categorie |
+-- +-------------+-------------+-------+--------+------------+-----------+
+-- |        5067 | appartement | paris | 685000 |         61 | vente     |
+-- +-------------+-------------+-------+--------+------------+-----------+
 -- 4/ Affichez le nombre de logements (Alias : Nombre de logements) :
--- +-----------------+
--- |       nombre    |
--- +-----------------+
--- |27               |
--- +-----------------+
+SELECT
+  COUNT(*) AS nombre
+FROM
+  logement;
+
+-- +--------+
+-- | nombre |
+-- +--------+
+-- |     28 |
+-- +--------+
 -- 5/ Affichez les logements à vendre à moins de 150 000€ dans l’ordre croissant des prix:
--- +          +             +          +        +            +           +
--- | id_logement| type        | ville    | prix   | superficie | categorie |
--- +          +             +          +        +            +           +
--- |     5860 | appartement | bordeaux | 105000 |         18 | vente     |
--- |     5249 | appartement | lyon     | 110000 |         16 | vente     |
--- |     5089 | appartement | paris    | 115000 |         15 | vente     |
--- |     5378 | appartement | bordeaux | 121900 |         26 | vente     |
--- |     5778 | appartement | bordeaux | 128600 |         43 | vente     |
--- |     5336 | appartement | bordeaux | 129600 |         27 | vente     |
--- |     5770 | appartement | paris    | 139000 |         38 | vente     |
--- |     5661 | appartement | bordeaux | 148600 |         36 | vente     |
--- +          +             +          +        +            +           +
+SELECT
+  id_logement,
+  genre,
+  ville,
+  prix,
+  superficie,
+  categorie
+FROM
+  logement
+WHERE
+  prix < 150000
+  AND categorie = 'vente';
+
+-- +-------------+-------------+----------+--------+------------+-----------+
+-- | id_logement | genre       | ville    | prix   | superficie | categorie |
+-- +-------------+-------------+----------+--------+------------+-----------+
+-- |        5089 | appartement | paris    | 115000 |         15 | vente     |
+-- |        5249 | appartement | lyon     | 110000 |         16 | vente     |
+-- |        5378 | appartement | bordeaux | 121900 |         26 | vente     |
+-- |        5860 | appartement | bordeaux |  98000 |         18 | vente     |
+-- +-------------+-------------+----------+--------+------------+-----------+
 -- 6/ Affichez le nombre de logements à la location (alias : nb) :
--- +             +
--- | nb          |
--- +             +
--- |           8 |
--- +             +
+SELECT
+  COUNT(*) AS nb
+FROM
+  logement
+WHERE
+  categorie = 'location';
+
+-- +----+
+-- | nb |
+-- +----+
+-- |  8 |
+-- +----+
 -- 7/ Affichez les villes différentes recherchées par les prospects pour accéder à un logement
--- +          +
+SELECT DISTINCT
+  ville
+FROM
+  demande;
+
+-- +----------+
 -- | ville    |
--- +          +
+-- +----------+
 -- | paris    |
 -- | bordeaux |
 -- | lyon     |
--- +          +
+-- +----------+
 -- 8/ Affichez le nombre de logements à vendre par ville (alias : nombre) :
--- +          +        +
+SELECT
+  ville,
+  COUNT(*) AS nombre
+FROM
+  logement
+GROUP BY
+  ville;
+
+-- +----------+--------+
 -- | ville    | nombre |
--- +          +        +
--- | bordeaux |      7 |
--- | lyon     |      3 |
--- | paris    |      9 |
--- +          +        +
+-- +----------+--------+
+-- | bordeaux |      9 |
+-- | lyon     |      5 |
+-- | paris    |     14 |
+-- +----------+--------+
 -- 9/ Quelles sont les références des logements à la location?
--- +----------+
--- | idLogement|
--- +----------+
--- |     5122 |
--- |     5189 |
--- |     5246 |
--- |     5324 |
--- |     5412 |
--- |     5786 |
--- |     5898 |
--- |     5961 |
--- +----------+
+SELECT
+  id_logement
+FROM
+  logement
+WHERE
+  categorie = 'location ';
+
+-- +-------------+
+-- | id_logement |
+-- +-------------+
+-- |        5122 |
+-- |        5189 |
+-- |        5246 |
+-- |        5324 |
+-- |        5412 |
+-- |        5786 |
+-- |        5898 |
+-- |        5961 |
+-- +-------------+
 -- 10/ Quelles sont les références des logements entre 20 et 30m² ?
--- +          +
--- | id_logement|
--- +          +
--- |     5336 |
--- |     5378 |
--- |     5786 |
--- +          +
+SELECT
+  id_logement
+FROM
+  logement
+WHERE
+  superficie >= 20
+  AND superficie <= 30;
+
+-- +-------------+
+-- | id_logement |
+-- +-------------+
+-- |        5336 |
+-- |        5378 |
+-- |        5786 |
+-- +-------------+
 -- 11/ Quel est le prix vendeur (hors commission) du logement le moins cher à vendre ? (Alias : prix_minimum) :
--- +              +
--- | prix minimum |
--- +              +
--- |       105000 |
--- +              +
+SELECT
+  MIN(prix) AS prix_minimum
+FROM
+  logement
+WHERE
+  categorie = 'vente';
+
+-- +--------------+
+-- | prix_minimum |
+-- +--------------+
+-- |        98000 |
+-- +--------------+
 -- 12/ Dans quelle ville se trouve l’unique maison à vendre ?
--- +        +       +
--- | type   | ville |
--- +        +       +
--- | maison | paris |
--- +        +       +
+SELECT DISTINCT
+  genre,
+  ville
+FROM
+  logement
+WHERE
+  genre = 'maison';
+
+-- +--------+----------+
+-- | genre  | ville    |
+-- +--------+----------+
+-- | maison | paris    |
+-- | maison | bordeaux |
+-- +--------+----------+
 -- 13/ L’agence Orpi souhaite diminuer les frais qu’elle applique sur le logement ayant l‘id « 5246 ». Passez les frais de ce logement de 800 à 730€ :
+UPDATE logement_agence
+SET
+  frais = 730
+WHERE
+  logement_id = 5246;
+
+-- le montant des frais maintenant c'est quoi ?
+-- Vérifier le montant des frais pour le logement ayant l'id "5246"
+SELECT
+  frais
+FROM
+  logement_agence
+WHERE
+  logement_id = 5246;
+
+-- +-------+
+-- | frais |
+-- +-------+
+-- |   730 |
+-- +-------+
+-- Query OK, 1 row affected (0.006 sec)
+-- Rows matched: 1  Changed: 1  Warnings: 0
 -- 14/ Quels sont les logements gérés par l’agence « laforet »
--- +          +
--- | id_logement|
--- +          +
--- |     5378 |
--- |     5723 |
--- |     5961 |
--- +          +
+SELECT
+  logement_agence.logement_id
+FROM
+  logement_agence
+  INNER JOIN agence ON logement_agence.agence_id = agence.id_agence
+WHERE
+  agence.nom = 'laforet';
+
+-- +-------------+
+-- | logement_id |
+-- +-------------+
+-- |        5378 |
+-- |        5723 |
+-- |        5961 |
+-- +-------------+
 -- 15/ Affichez le nombre de propriétaires dans la ville de Paris (Alias : Nombre_de_proprietaires_dans_le_75) :
--- +                                         +
--- | Nombre_de_proprietaires_dans_le_75      |
--- +                                         +
--- |                                      13 |
--- +                                         +
+SELECT
+  COUNT(DISTINCT logement_personne.personne_id) AS Nombre_de_proprietaires_dans_le_75
+FROM
+  logement
+  INNER JOIN logement_personne ON logement.id_logement = logement_personne.logement_id
+WHERE
+  logement.ville = 'paris';
+
+-- +------------------------------------+
+-- | Nombre_de_proprietaires_dans_le_75 |
+-- +------------------------------------+
+-- |                                 13 |
+-- +------------------------------------+
 -- 16/ Affichez les informations des trois premiers personnes souhaitant acheter un logement
+SELECT
+  personne.prenom,
+  logement_personne.personne_id,
+  logement.genre,
+  logement.ville,
+  logement.prix,
+  logement.superficie,
+  logement.categorie
+FROM
+  personne
+  INNER JOIN logement ON logement_personne.personne_id = personne.id_personne
+  INNER JOIN logement ON
+  -- 16/ Affichez les informations des trois premiers personnes souhaitant acheter un logement
+SELECT
+  personne.prenom,
+  logement_personne.personne_id,
+  logement.genre,
+  logement.ville,
+  logement.prix,
+  logement.superficie,
+  logement.categorie
+FROM
+  logement_personne
+  INNER JOIN personne ON logement_personne.personne_id = personne.id_personne
+  INNER JOIN logement ON logement_personne.logement_id = logement.id_logement
+WHERE
+  logement.categorie = 'vente'
+LIMIT
+  3;
+
 -- +          +             +             +          +        +            +           +
 -- | prenom  | personne_id | type        | ville    | budget | superficie | categorie |
 -- +          +             +             +          +        +            +           +
