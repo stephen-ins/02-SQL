@@ -1,0 +1,42 @@
+cd C:\xampp\mysql\bin
+
+mysql.exe –h localhost –u root -p
+
+
+mysql -h localhost -u root
+
+/Applications/xampp/xamppfiles/bin/mysql -u root -p
+
+
+article
+PK AI INT(11)  VARCHAR(20) VARCHAR(20) INT(3) INT(3) FK INT(3)
++-------------+-----------+---------+------+-------+----------------+
+| id_article  | titre     | couleur | prix | stock | fournisseur_id |
++-------------+-----------+---------+------+-------+----------------+
+|           1 | tshirt    | bleu    |   10 |    20 |        1       |
+|           2 | chemise   | noir    |   50 |   600 |        1       |
+|           3 | chaussete | blanc   |   30 |   300 |        1       |
+|           6 | chassure  | noir    |   35 |   250 |        2       |
+|           7 | parapluie | orange  |   35 |   120 |        2       |
++-------------+-----------+---------+------+-------+----------------+
+
+fournisseur
+PK AI INT(11)   VARCHAR(20) VARCHAR(20)
++----------------+------+-----------+
+| id_fournisseur | nom  | ville     |
++----------------+------+-----------+
+|              1 | nom1 | paris     |
+|              2 | nom2 | marseille |
++----------------+------+-----------+
+
+
+Les contraintes d'intégrités permettent de garantir la cohérence des données dans la base de donnée, de pas avoir de données incohérentes, fantômes.
+Par exemple , je dois pas pouvoir lier l'article 12 pull à un fournisseur qui n'existe pas, permet de controler l'intégralité des données.
+4 contraintes existent :
+
+
+- RESTRICT / NO ACTION : empêche la suppression d'une ligne si elle est référencée par une autre table. Il existe des contraintes différés, NO ACTION est une contrainte différée. Si nous avons des données liées entres les tables, on ne peut pas supprimer une ligne si elle est référencée par une autre table.
+
+- CASCADE : si on supprime une ligne dans la table mère, on supprime les lignes dans la table fille.
+
+- SET NULL : si nous supprimons un fournisseur, la clé étrangère des articles qui y sont liées aura pour valeur NULL, attention la clé étrangère doit être nullable. Accepter les valeurs NULL.
